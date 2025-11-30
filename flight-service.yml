@@ -1,13 +1,23 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: flight-service
-
   r2dbc:
-    url: r2dbc:pool:mysql://localhost:3306/flights_db
-    username: flight_user
-    password: flight_pwd
+    url: r2dbc:mysql://localhost:3306/flightdb
+    username: root
+    password: root
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  cloud:
+    config:
+      uri: http://localhost:8888
+  cache:
+    type: redis
 
 eureka:
   client:
-    service-url:
+    serviceUrl:
       defaultZone: http://localhost:8761/eureka
