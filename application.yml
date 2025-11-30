@@ -1,9 +1,23 @@
 spring:
-  application:
-    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Akankshya1402/flight-config-repo.git
+          default-label: main
+          clone-on-start: true
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+---
+# Common Kafka defaults for all services
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
