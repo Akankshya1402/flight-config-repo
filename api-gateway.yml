@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    config:
+      uri: http://localhost:8888
+
+    gateway:
+      routes:
+        - id: flight-service
+          uri: lb://flight-service
+          predicates:
+            - Path=/api/flight/**
+          filters:
+            - RewritePath=/api/flight/(?<segment>.*), /${segment}
+            - CircuitBreaker=name=flightCB,fallbackUri=forward:/fallback/flight
+
+        - id: booking-service
+          uri: lb://booking-service
+          predicates:
+            - Path=/api/booking/**
+          filters:
+            - RewritePath=/api/booking/(?<segment>.*), /${segment}
+            - CircuitBreaker=name=bookingCB,fallbackUri=forward:/fallback/booking
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
