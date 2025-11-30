@@ -12,7 +12,7 @@ spring:
     gateway:
       routes:
         - id: flight-service
-          uri: lb://flight-service
+          uri: lb://FLIGHT-SERVICE
           predicates:
             - Path=/api/flight/**
           filters:
@@ -20,7 +20,7 @@ spring:
             - CircuitBreaker=name=flightCB,fallbackUri=forward:/fallback/flight
 
         - id: booking-service
-          uri: lb://booking-service
+          uri: lb://BOOKING-SERVICE
           predicates:
             - Path=/api/booking/**
           filters:
