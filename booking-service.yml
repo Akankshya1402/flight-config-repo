@@ -5,10 +5,13 @@ spring:
   application:
     name: booking-service
 
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
   datasource:
     url: jdbc:mysql://localhost:3306/bookingdb
     username: root
-    password: "Root@123"
+    password: Root@123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -32,6 +35,25 @@ spring:
             connect-timeout: 2000
             read-timeout: 3000
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: booking.created
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+booking:
+  email:
+    exchange: booking.exchange
+    routing-key: booking.email
+    queue: booking.email.queue
+
+kafka:
+  topics:
+    booking-created: booking.created
+    booking-failed: booking.failed
+
 eureka:
   client:
     service-url:
@@ -51,5 +73,3 @@ resilience4j:
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
-
-
