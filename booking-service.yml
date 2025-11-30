@@ -5,17 +5,21 @@ spring:
   application:
     name: booking-service
 
-  cloud:
-    config:
-      uri: http://localhost:8888
+  config:
+    import: "optional:configserver:http://localhost:8888"
 
   datasource:
+    url: jdbc:mysql://localhost:3306/bookingdb
+    username: root
+    password: "Root@123"
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  r2dbc:
-    url: r2dbc:mysql://localhost:3306/bookingdb
-    username: root
-    password: Root@123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
 
   rabbitmq:
     host: localhost
@@ -27,3 +31,4 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
