@@ -1,15 +1,27 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: booking-service
 
+  cloud:
+    config:
+      uri: http://localhost:8888
+
   datasource:
-    url: jdbc:mysql://localhost:3306/booking_db
-    username: booking_user
-    password: booking_pwd
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/bookingdb
+    username: root
+    password: root
+
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
 
 eureka:
   client:
