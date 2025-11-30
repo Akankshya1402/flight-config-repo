@@ -2,32 +2,52 @@ server:
   port: 8080
 
 spring:
+  config:
+    import: "optional:configserver:http://localhost:8888/"
+
   application:
     name: api-gateway
 
   cloud:
-    config:
-      uri: http://localhost:8888
-
     gateway:
+
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 5
+            redis-rate-limiter.burstCapacity: 10
+            key-resolver: "#{@ipKeyResolver}"
+
       routes:
         - id: flight-service
-          uri: lb://FLIGHT-SERVICE
+          uri: lb://flight-service
           predicates:
             - Path=/api/flight/**
           filters:
-            - RewritePath=/api/flight/(?<segment>.*), /${segment}
+            - StripPrefix=1
             - CircuitBreaker=name=flightCB,fallbackUri=forward:/fallback/flight
 
         - id: booking-service
-          uri: lb://BOOKING-SERVICE
+          uri: lb://booking-service
           predicates:
             - Path=/api/booking/**
           filters:
-            - RewritePath=/api/booking/(?<segment>.*), /${segment}
+            - StripPrefix=1
             - CircuitBreaker=name=bookingCB,fallbackUri=forward:/fallback/booking
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
