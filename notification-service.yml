@@ -27,23 +27,20 @@ spring:
             enable: true
 
   kafka:
-    bootstrap-servers: localhost:9092
     consumer:
       group-id: notification-service-group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "*"
+      auto-offset-reset: earliest
+
+# Same topic name used by BookingEventProducer (@Value("${kafka.topics.booking-created}"))
+kafka:
+  topics:
+    booking-created: booking.created
 
 booking:
   email:
     exchange: booking.exchange
     routing-key: booking.email
     queue: booking.email.queue
-
-kafka:
-  topics:
-    booking-created: booking.created
 
 eureka:
   client:
@@ -55,3 +52,4 @@ management:
     web:
       exposure:
         include: "*"
+
