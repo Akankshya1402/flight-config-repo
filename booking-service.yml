@@ -27,32 +27,22 @@ spring:
     username: guest
     password: guest
 
-  cloud:
-    openfeign:
-      client:
-        config:
-          flight-service:
-            connect-timeout: 2000
-            read-timeout: 3000
-
+  # Kafka producer for BookingEvent (producer config is also in common application.yml)
   kafka:
-    bootstrap-servers: localhost:9092
-    template:
-      default-topic: booking.created
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: booking-service-group
+      auto-offset-reset: earliest
+
+# Used by your @Value("${kafka.topics.booking-created}")
+kafka:
+  topics:
+    booking-created: booking.created
 
 booking:
   email:
     exchange: booking.exchange
     routing-key: booking.email
     queue: booking.email.queue
-
-kafka:
-  topics:
-    booking-created: booking.created
-    booking-failed: booking.failed
 
 eureka:
   client:
