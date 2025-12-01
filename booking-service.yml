@@ -42,7 +42,8 @@ spring:
 
 kafka:
   topics:
-    booking-created: booking.created
+    booking-created: booking_created_topic
+
 
 booking:
   email:
