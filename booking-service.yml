@@ -21,12 +21,6 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
 
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
   kafka:
     bootstrap-servers: localhost:9092
     producer:
@@ -39,6 +33,12 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 kafka:
   topics:
@@ -69,4 +69,3 @@ resilience4j:
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
-
