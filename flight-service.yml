@@ -28,11 +28,6 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: flight-service-group
-
 eureka:
   client:
     service-url:
@@ -65,3 +60,4 @@ resilience4j:
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
+
