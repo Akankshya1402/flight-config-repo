@@ -27,13 +27,19 @@ spring:
     username: guest
     password: guest
 
-  # Kafka producer for BookingEvent (producer config is also in common application.yml)
   kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: booking-service-group
       auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
 
-# Used by your @Value("${kafka.topics.booking-created}")
 kafka:
   topics:
     booking-created: booking.created
@@ -63,3 +69,4 @@ resilience4j:
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
+
