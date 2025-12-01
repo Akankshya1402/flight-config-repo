@@ -11,6 +11,7 @@ spring:
   cloud:
     gateway:
 
+      # Rate limiting using Redis
       default-filters:
         - name: RequestRateLimiter
           args:
@@ -35,13 +36,6 @@ spring:
             - StripPrefix=1
             - CircuitBreaker=name=bookingCB,fallbackUri=forward:/fallback/booking
 
-        - id: notification-service
-          uri: lb://notification-service
-          predicates:
-            - Path=/api/notify/**
-          filters:
-            - StripPrefix=1
-
   data:
     redis:
       host: localhost
@@ -57,5 +51,4 @@ management:
     web:
       exposure:
         include: "*"
-
 
