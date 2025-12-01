@@ -27,9 +27,9 @@ spring:
     bootstrap-servers: localhost:9092
     consumer:
       group-id: notification-group
-      properties: {}       # MUST CLEAR
-      key-deserializer: "" # MUST CLEAR
-      value-deserializer: "" # MUST CLEAR
+      auto-offset-reset: earliest
+      # ❌ NO deserializers here!
+      # ❌ NO properties here!
 
 kafka:
   topics:
