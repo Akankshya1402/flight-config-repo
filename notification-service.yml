@@ -28,8 +28,7 @@ spring:
     consumer:
       group-id: notification-group
       auto-offset-reset: earliest
-      # ❌ NO deserializers here!
-      # ❌ NO properties here!
+      # IMPORTANT ⚠️ Do NOT add any deserializer or properties here
 
 kafka:
   topics:
