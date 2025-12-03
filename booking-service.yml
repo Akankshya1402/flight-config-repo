@@ -5,30 +5,19 @@ spring:
   application:
     name: booking-service
 
-  config:
-    import: "optional:configserver:http://localhost:8888/"
-
   datasource:
     url: jdbc:mysql://localhost:3306/booking_db
     username: root
     password: Root@123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+# ... (your JPA / hibernate stuff can stay)
 
-rabbitmq:
-  host: localhost
-  port: 5672
-  username: guest
-  password: guest
-
-rabbitmq-config:
-  exchange: booking.exchange
-  queue: booking.email.queue
-  routing-key: booking.email.key
+booking:
+  email:
+    exchange: booking.exchange
+    queue: booking.email.queue
+    routing-key: booking.email.key
 
 resilience4j:
   circuitbreaker:
@@ -38,4 +27,3 @@ resilience4j:
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 5s
-
