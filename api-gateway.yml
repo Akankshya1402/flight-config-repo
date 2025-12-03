@@ -2,50 +2,25 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: api-gateway
-
-  config:
-    import: "optional:configserver:http://localhost:8888/"
-
   cloud:
     gateway:
-      default-filters:
-        - name: RequestRateLimiter
-          args:
-            redis-rate-limiter.replenishRate: 5
-            redis-rate-limiter.burstCapacity: 10
-            key-resolver: "#{@ipKeyResolver}"
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
       routes:
         - id: flight-service
           uri: lb://flight-service
           predicates:
             - Path=/api/flight/**
-          filters:
-            - StripPrefix=1
-            - CircuitBreaker=name=flightCB,fallbackUri=forward:/fallback/flight
 
         - id: booking-service
           uri: lb://booking-service
           predicates:
             - Path=/api/booking/**
-          filters:
-            - StripPrefix=1
-            - CircuitBreaker=name=bookingCB,fallbackUri=forward:/fallback/booking
 
-  data:
-    redis:
-      host: localhost
-      port: 6379
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notification/**
