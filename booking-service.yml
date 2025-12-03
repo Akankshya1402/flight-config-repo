@@ -1,11 +1,8 @@
-server:
-  port: 8082
-
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/booking_db
     username: root
-    password: root
+    password: Root@123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -13,22 +10,13 @@ spring:
       ddl-auto: update
     show-sql: true
 
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
-logging:
-  level:
-    root: INFO
-    com.flightapp.bookingservice: DEBUG
-
-eureka:
-  instance:
-    prefer-ip-address: true
-
 rabbitmq:
+  host: localhost
+  port: 5672
+  username: guest
+  password: guest
+
+rabbitmq-config:
   exchange: booking.exchange
   queue: booking.email.queue
   routing-key: booking.email.key
