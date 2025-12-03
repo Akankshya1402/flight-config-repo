@@ -2,19 +2,14 @@ server:
   port: 8081
 
 spring:
-  application:
-    name: flight-service
-
-  config:
-    import: "optional:configserver:http://localhost:8888"
-
   r2dbc:
     url: r2dbc:mysql://localhost:3306/flightdb
     username: root
     password: Root@123
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
 
   cache:
     type: redis
@@ -24,38 +19,26 @@ spring:
       host: localhost
       port: 6379
 
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
 logging:
   level:
     root: INFO
     org.springframework.r2dbc: DEBUG
     com.flightapp.flightservice: DEBUG
 
+eureka:
+  instance:
+    prefer-ip-address: true
+
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-  tracing:
-    sampling:
-      probability: 1.0
-  endpoint:
-    health:
-      show-details: always
 
 resilience4j:
   circuitbreaker:
     instances:
       flightSearchCB:
-        register-health-indicator: true
         sliding-window-size: 10
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
