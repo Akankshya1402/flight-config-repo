@@ -23,23 +23,6 @@ spring:
     username: guest
     password: guest
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: notification-group
-      auto-offset-reset: earliest
-      # IMPORTANT ⚠️ Do NOT add any deserializer or properties here
-
-kafka:
-  topics:
-    booking-created: booking.created
-
-booking:
-  email:
-    exchange: booking.exchange
-    routing-key: booking.email
-    queue: booking.email.queue
-
 eureka:
   client:
     service-url:
