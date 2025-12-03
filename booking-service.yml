@@ -2,25 +2,16 @@ server:
   port: 8082
 
 spring:
-  application:
-    name: booking-service
-
-  config:
-    import: "optional:configserver:http://localhost:8888"
-
   datasource:
-    url: jdbc:mysql://localhost:3306/bookingdb
+    url: jdbc:mysql://localhost:3306/booking_db
     username: root
-    password: Root@123
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
 
   rabbitmq:
     host: localhost
@@ -28,28 +19,26 @@ spring:
     username: guest
     password: guest
 
-booking:
-  email:
-    exchange: booking.exchange
-    routing-key: booking.email
-    queue: booking.email.queue
+logging:
+  level:
+    root: INFO
+    com.flightapp.bookingservice: DEBUG
 
 eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+rabbitmq:
+  exchange: booking.exchange
+  queue: booking.email.queue
+  routing-key: booking.email.key
 
 resilience4j:
   circuitbreaker:
     instances:
-      flightServiceClient:
+      flightServiceCb:
         sliding-window-size: 10
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
-        wait-duration-in-open-state: 10s
+        wait-duration-in-open-state: 5s
+
