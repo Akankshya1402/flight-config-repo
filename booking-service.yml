@@ -21,29 +21,11 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
 
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    consumer:
-      group-id: booking-service-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "*"
-
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
-
-kafka:
-  topics:
-    booking-created: booking_created_topic
-
 
 booking:
   email:
@@ -70,3 +52,4 @@ resilience4j:
         minimum-number-of-calls: 5
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
+
