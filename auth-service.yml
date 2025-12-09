@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/flightapp_auth?createDatabaseIfNotExist=true
+    username: root
+    password: tathagya2003
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  # must stay Base64-encoded because JwtService decodes it
+  secret: QWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo4OTg3NjU1NA==
+  # 1 hour in milliseconds
+  expiration: 3600000
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: INFO
+    com.flightapp.authservice: DEBUG
